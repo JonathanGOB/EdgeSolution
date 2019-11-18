@@ -31,7 +31,8 @@ namespace DataModule
 
         public static string getMS(){
             Product product = new Product();
-            long milliseconds = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            DateTime start = DateTime.Now;
+            long milliseconds = start.Millisecond;
             product.MillisecondsData = milliseconds;
             string json = JsonConvert.SerializeObject(product);
             return json;
@@ -39,7 +40,7 @@ namespace DataModule
 
         class Product{
             public long MillisecondsData;
-            public long MillisecondsPaper = 0;
+            public long MillisecondsPaper;
             //public int Bytes;
         }
 

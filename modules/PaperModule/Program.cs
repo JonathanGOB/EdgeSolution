@@ -63,13 +63,14 @@ namespace PaperModule
         
         class Product{
             public long MillisecondsData;
-            public long MillisecondsPaper = 0;
+            public long MillisecondsPaper;
             //public int Bytes;
         }
 
         static async Task<MessageResponse> PipeMessage(Message message, object userContext)
         {
-            long milliseconds = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            DateTime start = DateTime.Now;
+            long milliseconds = start.Millisecond;
             int counterValue = Interlocked.Increment(ref counter);
 
             var moduleClient = userContext as ModuleClient;
@@ -88,11 +89,9 @@ namespace PaperModule
 
             if (!string.IsNullOrEmpty(messageString))
             {
-            
                 Message messagesend = new Message(GenerateStreamFromString(messageString));
                 await moduleClient.SendEventAsync("output1",messagesend);
                 Console.WriteLine("Received message sent");
-    
             }
             return MessageResponse.Completed;
         }
